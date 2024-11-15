@@ -18,7 +18,11 @@ Vagrant.configure("2") do |config|
     sudo chown -R www-data:www-data /var/www/javiWeb/html
     sudo chmod -R 755 /var/www/javiWeb
 
-    systemctl status nginx
+    sudo cp /vagrant/files/javiWeb /etc/nginx/sites-available/javiWeb
+
+    sudo ln -sf /etc/nginx/sites-available/javiWeb /etc/nginx/sites-enabled/
+    sudo nginx -t
+    sudo systemctl restart nginx
   SHELL
   end #javier
 

@@ -11,6 +11,9 @@ Vagrant.configure("2") do |config|
   javier.vm.provision "shell", inline: <<-SHELL
     sudo apt update
     sudo apt install -y git
+    sudo git config --global core.safecrlf true
+    sudo apt-get update
+    sudo apt-get install -y vsftpd
     sudo apt install -y nginx
     sudo apt install ufw
     sudo apt install -y openssl
@@ -25,6 +28,20 @@ Vagrant.configure("2") do |config|
     sudo ln -sf /etc/nginx/sites-available/javiWeb /etc/nginx/sites-enabled/
     sudo nginx -t
     sudo systemctl restart nginx
+
+    # FTP
+
+    mkdir /home/vagrant/ftp
+    sudo echo "vagrant:vagrant" | chpasswd
+
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+      -keyout /etc/ssl/private/vsftpd.key \
+      -out /etc/ssl/certs/vsftpd.crt \
+      -subj "/C=ES/ST=Andalucía/L=Granada/O=IZV/OU=WEB/CN=vsftpd/emailAddress=webmaster@vsftpd.com"
+    
+    sudo cp /vagrant/files/vsftpd.conf /etc/vsftpd.conf
+    sudo systemctl restart vsftpd
+
 
     # Práctica 2.2. Autenticación en Nginx. + Práctica 2.3. Acceso seguro con Nginx
 

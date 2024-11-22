@@ -40,6 +40,7 @@ Vagrant.configure("2") do |config|
       -subj "/C=ES/ST=Andalucía/L=Granada/O=IZV/OU=WEB/CN=vsftpd/emailAddress=webmaster@vsftpd.com"
     
     sudo cp /vagrant/files/vsftpd.conf /etc/vsftpd.conf
+    sudo ufw allow 40000:40100/tcp
     sudo systemctl restart vsftpd
 
 

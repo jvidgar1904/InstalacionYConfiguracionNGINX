@@ -1,11 +1,16 @@
 server {
 	listen 80;
-	listen [::]:80;
+	listen 443 ssl;
 	
 	root /var/www/perfectLearn/html;
 	index index.html index.htm index.nginx-debian.html;
 
-	server_name perfectLearn;
+	server_name perfectLearn.com;
+
+	ssl_certificate /etc/ssl/certs/perfectLearn.com.crt;
+	ssl_certificate_key /etc/ssl/private/perfectLearn.com.key;
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+	ssl_ciphers HIGH:!aNULL:!MD5;
 
 	location /contact.html {
 		auth_basic "Área restringida";

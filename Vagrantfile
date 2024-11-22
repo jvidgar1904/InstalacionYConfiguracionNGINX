@@ -12,6 +12,8 @@ Vagrant.configure("2") do |config|
     sudo apt update
     sudo apt install -y git
     sudo apt install -y nginx
+    sudo apt install ufw
+    sudo apt install -y openssl
 
     sudo mkdir -p /var/www/javiWeb/html
     git clone https://github.com/cloudacademy/static-website-example /var/www/javiWeb/html
@@ -24,7 +26,17 @@ Vagrant.configure("2") do |config|
     sudo nginx -t
     sudo systemctl restart nginx
 
-    # Práctica 2.2. Autenticación en Nginx.
+    # Práctica 2.2. Autenticación en Nginx. + Práctica 2.3. Acceso seguro con Nginx
+
+    sudo ufw allow ssh
+    sudo ufw allow 'Nginx Full'
+    sudo ufw delete allow 'Nginx HTTP'
+    sudo ufw --force enable
+
+    sudo openssl req -x509 -nodes -days 365 \
+      -newkey rsa:2048 -keyout /etc/ssl/private/perfectLearn.com.key \
+      -out /etc/ssl/certs/perfectLearn.com.crt \
+      -subj "/C=ES/ST=Andalucía/L=Granada/O=IZV/OU=WEB/CN=perfectLearn.com/emailAddress=webmaster@perfectLearn.com"
 
     sudo mkdir -p /var/www/perfectLearn/
     sudo cp -r /vagrant/files/html /var/www/perfectLearn/
@@ -45,6 +57,11 @@ Vagrant.configure("2") do |config|
     sudo sh -c "openssl passwd -apr1 'vidal' >> /etc/nginx/.htpasswd"
     
     sudo cat /etc/nginx/.htpasswd
+
+    
+    
+    sudo nginx -t
+    sudo systemctl restart nginx
     
   SHELL
   end #javier

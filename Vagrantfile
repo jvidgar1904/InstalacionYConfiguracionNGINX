@@ -23,6 +23,29 @@ Vagrant.configure("2") do |config|
     sudo ln -sf /etc/nginx/sites-available/javiWeb /etc/nginx/sites-enabled/
     sudo nginx -t
     sudo systemctl restart nginx
+
+    # Práctica 2.2. Autenticación en Nginx.
+
+    sudo mkdir -p /var/www/perfectLearn/
+    sudo cp -r /vagrant/files/html /var/www/perfectLearn/
+    sudo chown -R www-data:www-data /var/www/perfectLearn/html
+    sudo chmod -R 755 /var/www/perfectLearn
+
+    sudo cp /vagrant/files/perfectLearn /etc/nginx/sites-available/perfectLearn
+
+    sudo ln -sf /etc/nginx/sites-available/perfectLearn /etc/nginx/sites-enabled/
+    sudo nginx -t
+    sudo systemctl restart nginx
+
+
+    sudo sh -c "echo -n 'Javier:' >> /etc/nginx/.htpasswd"
+    sudo sh -c "openssl passwd -apr1 'javier' >> /etc/nginx/.htpasswd"
+
+    sudo sh -c "echo -n 'Vidal:' >> /etc/nginx/.htpasswd"
+    sudo sh -c "openssl passwd -apr1 'vidal' >> /etc/nginx/.htpasswd"
+    
+    sudo cat /etc/nginx/.htpasswd
+    
   SHELL
   end #javier
 

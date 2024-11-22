@@ -5,7 +5,7 @@ server {
 	root /var/www/perfectLearn/html;
 	index index.html index.htm index.nginx-debian.html;
 
-	server_name perfectLearn.com;
+	server_name perfectLearn perfectLearn.com www.perfectLearn.com ;
 
 	ssl_certificate /etc/ssl/certs/perfectLearn.com.crt;
 	ssl_certificate_key /etc/ssl/private/perfectLearn.com.key;
